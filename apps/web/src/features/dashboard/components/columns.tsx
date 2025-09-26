@@ -2,7 +2,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Bell, Circle, MoreHorizontal, Pencil, Plus } from "lucide-react";
+import { Bell, Circle, MoreHorizontal, Pencil, Plus, User } from "lucide-react";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -77,9 +77,10 @@ export const columns: ColumnDef<Contract>[] = [
       return (
         <Badge
           className={cn(
-            status === "Menunggu" && "bg-blue-100 text-blue-600",
+            "rounded-full p-2",
+            status === "Menunggu" && "bg-primary-100/50 text-primary-600",
             status === "disetujui" && "bg-green-100 text-green-600",
-            status === "ditolak" && "bg-red-100 text-red-600"
+            status === "ditolak" && "bg-red-100 text-danger-600"
           )}
           variant="outline"
         >
@@ -92,7 +93,7 @@ export const columns: ColumnDef<Contract>[] = [
     accessorKey: "endDate",
     header: "Tanggal Berakhir",
     cell: ({ row }) => (
-      <span className="font-medium text-red-500">
+      <span className="font-medium text-muted-foreground">
         {row.getValue("endDate")}
       </span>
     ),
@@ -105,10 +106,11 @@ export const columns: ColumnDef<Contract>[] = [
       return (
         <span
           className={cn(
-            role === "Manager" && "text-amber-500",
-            role === "Legal Consil" && "text-blue-500"
+            role === "Manager" && "text-warning-500",
+            role === "Legal Consil" && "text-primary-500"
           )}
         >
+          <User className="mr-2 inline h-4 w-4" fill="currentColor" />
           {row.getValue("user")}
         </span>
       );
@@ -124,7 +126,7 @@ export const columns: ColumnDef<Contract>[] = [
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48 rounded-lg shadow-md">
+        <DropdownMenuContent align="end" className="w-max rounded-lg shadow-md">
           <DropdownMenuItem className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Tambah Keterangan
