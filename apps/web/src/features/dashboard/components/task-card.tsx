@@ -68,13 +68,13 @@ export default function TaskCard() {
         </Button>
       </CardHeader>
       <CardContent>
-        <Tabs className="w-full" defaultValue="meetings">
+        <Tabs className="w-full" defaultValue="reviews">
           <TabsList className="grid w-full grid-cols-2 rounded-lg bg-gray-100 p-1">
             <TabsTrigger
               className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
-              value="meetings"
+              value="reviews"
             >
-              Meetings
+              Reviews
             </TabsTrigger>
             <TabsTrigger
               className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
@@ -85,7 +85,7 @@ export default function TaskCard() {
           </TabsList>
 
           {/* Meetings */}
-          <TabsContent className="mt-4 space-y-4" value="meetings">
+          <TabsContent className="mt-4 space-y-4" value="reviews">
             {reviews.map((review, i) => (
               <div
                 className="flex items-start justify-between rounded-lg border-primary border-l-4 bg-white p-3 shadow-sm"

@@ -1,9 +1,19 @@
 import { Download, FileSpreadsheet, Pen } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import batikBot from "@/public/fragments/batik-dashboard-bot.svg";
 import batikTop from "@/public/fragments/batik-dashboard-top.svg";
+import FileUploadModal from "@/shared/components/file-upload-modal";
 
 export default function UploadCard() {
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [uploadedHandoverReport, setUploadedHandoverReport] = useState<
+    string | null
+  >(null);
+  const [uploadedHandoverReportSize, setUploadedHandoverReportSize] = useState<
+    number | null
+  >(null);
+
   return (
     <div className="relative flex h-36 w-full items-center overflow-clip rounded-2xl bg-gradient-to-l from-[#0275BC] to-[#7DCEFC] px-8">
       <Image
@@ -32,11 +42,30 @@ export default function UploadCard() {
         <div className="mt-2 flex gap-3">
           <button
             className="flex items-center gap-2 rounded-lg bg-white px-6 py-2 font-semibold text-primary-700 shadow hover:bg-blue-50"
+            onClick={() => setIsUploadModalOpen(true)}
             type="button"
           >
             <Download className="h-5 w-5" />
             Upload disini
           </button>
+          <FileUploadModal
+            acceptedFileTypes={[".pdf"]}
+            description="Kamu hanya bisa unggah 1 file saja."
+            maxFiles={1}
+            maxSize={10}
+            onOpenChange={setIsUploadModalOpen}
+            onSave={(files) => {
+              const uploadedFile = files[0]?.file;
+              if (uploadedFile) {
+                setUploadedHandoverReport(uploadedFile.name);
+                setUploadedHandoverReportSize(uploadedFile.size);
+              }
+              setIsUploadModalOpen(false);
+            }}
+            open={isUploadModalOpen}
+            saveButtonText="Upload"
+            title="Unggah Dokumen Administrasi"
+          />
           <button
             className="flex items-center gap-2 rounded-lg border border-white/60 bg-white/30 px-6 py-2 font-semibold text-white hover:bg-white/40"
             type="button"

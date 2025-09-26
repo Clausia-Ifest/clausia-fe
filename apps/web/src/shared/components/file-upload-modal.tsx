@@ -317,23 +317,23 @@ export default function FileUploadModal({
           <div className="flex flex-col items-center justify-center gap-2">
             <UploadCloudIcon className="h-10 w-10 text-blue-600" />
             <p className="font-medium text-sm">
-              Drag yout file or{" "}
+              Tarik file anda atau{" "}
               <button
                 className="text-blue-600 hover:underline focus:outline-none"
                 onClick={handleBrowseClick}
                 type="button"
               >
-                browse
+                cari
               </button>
             </p>
             <p className="text-muted-foreground text-xs">
-              Max {maxSize} MB files are allowed
+              Ukuran file maksimal {maxSize} MB.
             </p>
           </div>
         </div>
 
         <p className="text-muted-foreground text-xs">
-          Only support {acceptedFileTypes.join(", ")} files
+          Hanya mendukung file {acceptedFileTypes.join(", ")}
         </p>
 
         {files.length > 0 && (
@@ -349,10 +349,12 @@ export default function FileUploadModal({
                         {formatFileSize(file.size)}
                       </p>
                       {file.status === "failed" && (
-                        <p className="text-red-500 text-xs">Upload failed</p>
+                        <p className="text-red-500 text-xs">Gagal mengunggah</p>
                       )}
                       {file.status === "success" && (
-                        <p className="text-green-500 text-xs">Upload success</p>
+                        <p className="text-green-500 text-xs">
+                          Berhasil mengunggah
+                        </p>
                       )}
                     </div>
                   </div>
@@ -364,7 +366,7 @@ export default function FileUploadModal({
                       type="button"
                     >
                       <X className="h-4 w-4" />
-                      <span className="sr-only">Remove</span>
+                      <span className="sr-only">Hapus</span>
                     </button>
                   )}
 
@@ -375,7 +377,7 @@ export default function FileUploadModal({
                       type="button"
                     >
                       <RotateCw className="h-4 w-4" />
-                      <span className="sr-only">Retry</span>
+                      <span className="sr-only">Coba lagi</span>
                     </button>
                   )}
 
@@ -386,7 +388,7 @@ export default function FileUploadModal({
                       type="button"
                     >
                       <Trash2 className="h-4 w-4" />
-                      <span className="sr-only">Delete</span>
+                      <span className="sr-only">Hapus</span>
                     </button>
                   )}
                 </div>
