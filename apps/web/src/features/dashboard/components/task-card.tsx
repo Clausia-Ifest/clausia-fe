@@ -109,7 +109,7 @@ export default function TaskCard() {
           </TabsContent>
 
           {/* Jatuh Tempo */}
-          <TabsContent className="mt-4 space-y-2" value="jatuh-tempo">
+          <TabsContent className="mt-4 space-y-4" value="jatuh-tempo">
             {expired.map((items, i) => (
               <div
                 className="flex items-start justify-between rounded-lg border-primary border-l-4 bg-white p-3 shadow-sm"
