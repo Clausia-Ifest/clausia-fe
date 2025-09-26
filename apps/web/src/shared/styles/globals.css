@@ -8,12 +8,51 @@
   --font-poppins:
     "Poppins", "Geist", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Custom Font Classes - dapat digunakan dengan font-* */
+  --font-heading-1-regular: 400 30px / auto var(--font-poppins);
+  --font-heading-1-medium: 500 30px / auto var(--font-poppins);
+  --font-heading-1-semibold: 600 30px / 38px var(--font-poppins);
+  --font-heading-1-bold: 700 30px / 38px var(--font-poppins);
+  --font-heading-2-regular: 400 24px / auto var(--font-poppins);
+  --font-heading-2-medium: 500 24px / auto var(--font-poppins);
+  --font-heading-2-semibold: 600 24px / auto var(--font-poppins);
+  --font-heading-2-bold: 700 24px / auto var(--font-poppins);
+  --font-heading-3-regular: 400 20px / auto var(--font-poppins);
+  --font-heading-3-medium: 500 20px / auto var(--font-poppins);
+  --font-heading-3-semibold: 600 20px / auto var(--font-poppins);
+  --font-heading-3-bold: 700 20px / auto var(--font-poppins);
+  --font-heading-4-regular: 400 18px / 110px var(--font-poppins);
+  --font-heading-4-medium: 500 18px / 110px var(--font-poppins);
+  --font-heading-4-semibold: 600 18px / 110px var(--font-poppins);
+  --font-heading-4-bold: 700 18px / 110px var(--font-poppins);
+  --font-title-regular: 400 1.25rem / auto var(--font-poppins);
+  --font-title-semibold: 600 1.25rem / auto var(--font-poppins);
+  --font-title-bold: 700 1.25rem / auto var(--font-poppins);
+  --font-body-1-regular: 400 16px / 150px var(--font-poppins);
+  --font-body-1-medium: 500 16px / auto var(--font-poppins);
+  --font-body-1-semibold: 600 16px / 140px var(--font-poppins);
+  --font-body-1-bold: 700 16px / auto var(--font-poppins);
+  --font-body-2-regular: 400 14px / 150px var(--font-poppins);
+  --font-body-2-medium: 500 14px / 140px var(--font-poppins);
+  --font-body-2-semibold: 600 14px / 140px var(--font-poppins);
+  --font-body-2-bold: 700 14px / auto var(--font-poppins);
+  --font-body-3-regular: 400 13px / auto var(--font-poppins);
+  --font-body-3-medium: 500 13px / auto var(--font-poppins);
+  --font-body-3-semibold: 600 13px / auto var(--font-poppins);
+  --font-body-3-bold: 700 13px / auto var(--font-poppins);
+  --font-caption-regular: 400 12px / auto var(--font-poppins);
+  --font-caption-medium: 500 12px / auto var(--font-poppins);
+  --font-caption-semibold: 600 12px / auto var(--font-poppins);
+  --font-caption-bold: 700 12px / auto var(--font-poppins);
+  --font-caption-regular: 400 0.625rem / auto var(--font-poppins);
+  --font-caption-semibold: 600 0.625rem / auto var(--font-poppins);
+  --font-caption-bold: 700 0.625rem / auto var(--font-poppins);
 }
 
 html,
 body {
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+  @media (prefers-color-scheme: light) {
+    color-scheme: light;
   }
 }
 
@@ -50,6 +89,16 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --font-size-heading-1: 30px;
+  --font-size-heading-2: 24px;
+  --font-size-heading-3: 20px;
+  --font-size-heading-4: 18px;
+  --font-size-title: 20px;
+  --font-size-body-1: 16px;
+  --font-size-body-2: 14px;
+  --font-size-body-3: 13px;
+  --font-size-caption: 12px;
+  --line-height-display: 120%;
 }
 
 @theme inline {
@@ -144,5 +193,200 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Heading 1 */
+  .font-heading-1-regular {
+    @apply font-[400];
+    font-size: var(--font-size-heading-1);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-1-medium {
+    @apply font-medium;
+    font-size: var(--font-size-heading-1);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-1-semibold {
+    @apply font-semibold;
+    font-size: var(--font-size-heading-1);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-1-bold {
+    @apply font-bold;
+    font-size: var(--font-size-heading-1);
+    line-height: var(--line-height-display);
+  }
+
+  /* Heading 2 */
+  .font-heading-2-regular {
+    @apply font-[400];
+    font-size: var(--font-size-heading-2);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-2-medium {
+    @apply font-medium;
+    font-size: var(--font-size-heading-2);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-2-semibold {
+    @apply font-semibold;
+    font-size: var(--font-size-heading-2);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-2-bold {
+    @apply font-bold;
+    font-size: var(--font-size-heading-2);
+    line-height: var(--line-height-display);
+  }
+
+  /* Heading 3 */
+  .font-heading-3-regular {
+    @apply font-[400];
+    font-size: var(--font-size-heading-3);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-3-medium {
+    @apply font-medium;
+    font-size: var(--font-size-heading-3);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-3-semibold {
+    @apply font-semibold;
+    font-size: var(--font-size-heading-3);
+    line-height: var(--line-height-display);
+  }
+  .font-heading-3-bold {
+    @apply font-bold;
+    font-size: var(--font-size-heading-3);
+    line-height: var(--line-height-display);
+  }
+
+  /* Heading 4 */
+  .font-heading-4-regular {
+    @apply font-[400];
+    font-size: 18px;
+    line-height: 110%;
+  }
+  .font-heading-4-medium {
+    @apply font-medium;
+    font-size: 18px;
+    line-height: 110%;
+  }
+  .font-heading-4-semibold {
+    @apply font-semibold;
+    font-size: 18px;
+    line-height: 110%;
+  }
+  .font-heading-4-bold {
+    @apply font-bold;
+    font-size: 18px;
+    line-height: 110%;
+  }
+
+  /* Title */
+  .font-title-regular {
+    @apply font-[400];
+    font-size: var(--font-size-title);
+    line-height: var(--line-height-display);
+  }
+  .font-title-semibold {
+    @apply font-semibold;
+    font-size: var(--font-size-title);
+    line-height: var(--line-height-display);
+  }
+  .font-title-bold {
+    @apply font-bold;
+    font-size: var(--font-size-title);
+    line-height: var(--line-height-display);
+  }
+
+  /* Body 1 */
+  .font-body-1-regular {
+    @apply font-[400];
+    font-size: 16px;
+    line-height: 150%;
+  }
+  .font-body-1-medium {
+    @apply font-medium;
+    font-size: 16px;
+    line-height: normal;
+  }
+  .font-body-1-semibold {
+    @apply font-semibold;
+    font-size: 16px;
+    line-height: 140%;
+  }
+  .font-body-1-bold {
+    @apply font-bold;
+    font-size: 16px;
+    line-height: normal;
+  }
+
+  /* Body 2 */
+  .font-body-2-regular {
+    @apply font-[400];
+    font-size: 14px;
+    line-height: 150%;
+  }
+  .font-body-2-medium {
+    @apply font-medium;
+    font-size: 14px;
+    line-height: 140%;
+  }
+  .font-body-2-semibold {
+    @apply font-semibold;
+    font-size: 14px;
+    line-height: 140%;
+  }
+  .font-body-2-bold {
+    @apply font-bold;
+    font-size: 14px;
+    line-height: normal;
+  }
+
+  /* Body 3 */
+  .font-body-3-regular {
+    @apply font-[400];
+    font-size: 13px;
+    line-height: normal;
+  }
+  .font-body-3-medium {
+    @apply font-medium;
+    font-size: 13px;
+    line-height: normal;
+  }
+  .font-body-3-semibold {
+    @apply font-semibold;
+    font-size: 13px;
+    line-height: normal;
+  }
+  .font-body-3-bold {
+    @apply font-bold;
+    font-size: 13px;
+    line-height: normal;
+  }
+
+  /* Caption */
+  .font-caption-regular {
+    @apply font-[400];
+    font-size: var(--font-size-caption);
+    line-height: normal;
+  }
+  .font-caption-medium {
+    @apply font-medium;
+    font-size: var(--font-size-caption);
+    line-height: normal;
+  }
+  .font-caption-semibold {
+    @apply font-semibold;
+    font-size: var(--font-size-caption);
+    line-height: normal;
+  }
+  .font-caption-bold {
+    @apply font-bold;
+    font-size: var(--font-size-caption);
+    line-height: normal;
   }
 }
