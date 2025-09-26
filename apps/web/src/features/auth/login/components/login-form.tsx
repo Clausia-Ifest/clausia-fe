@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Form,
@@ -14,11 +15,19 @@ import { Input } from "@/shared/components/ui/input";
 import { useLoginForm } from "../hooks/use-login-form";
 
 export default function LoginForm() {
-  const { form, onSubmit } = useLoginForm();
+  const { form, onSubmitHandler, isPending } = useLoginForm();
+  const [rememberMe, setRememberMe] = useState(false);
 
   return (
     <Form {...form}>
-      <form className="mb-12 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="mb-12 space-y-6"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmitHandler(e);
+        }}
+      >
+        {/* Email */}
         <FormField
           control={form.control}
           name="email"
@@ -39,6 +48,8 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
+
+        {/* Password */}
         <FormField
           control={form.control}
           name="password"
@@ -59,30 +70,24 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
+
+        {/* Remember Me (tidak masuk schema) */}
         <div className="flex items-center justify-between">
-          <FormField
-            control={form.control}
-            name="rememberMe"
-            render={({ field }) => (
-              <FormItem className="m-0 flex items-center space-x-2">
-                <FormControl>
-                  <Input
-                    checked={field.value}
-                    className="h-5 w-5 bg-white"
-                    id="rememberMe"
-                    onChange={field.onChange}
-                    type="checkbox"
-                  />
-                </FormControl>
-                <FormLabel
-                  className="mb-0 cursor-pointer font-medium text-gray-900 text-sm"
-                  htmlFor="rememberMe"
-                >
-                  Remember me
-                </FormLabel>
-              </FormItem>
-            )}
-          />
+          <div className="m-0 flex items-center space-x-1">
+            <Input
+              checked={rememberMe}
+              className="size-4"
+              id="rememberMe"
+              onChange={(e) => setRememberMe(e.target.checked)}
+              type="checkbox"
+            />
+            <label
+              className="mb-0 cursor-pointer font-medium text-gray-900 text-sm"
+              htmlFor="rememberMe"
+            >
+              Remember me
+            </label>
+          </div>
           <Link
             className="font-medium text-muted-foreground text-sm hover:underline"
             href="/forgot-password"
@@ -90,8 +95,13 @@ export default function LoginForm() {
             Forgot Password?
           </Link>
         </div>
-        <Button className="h-12 w-full bg-primary text-white" type="submit">
-          Sign In
+
+        <Button
+          className="h-12 w-full bg-primary text-white"
+          disabled={isPending}
+          type="submit"
+        >
+          {isPending ? "Loading..." : "Sign In"}
         </Button>
       </form>
     </Form>

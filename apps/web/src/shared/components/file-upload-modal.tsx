@@ -4,6 +4,8 @@
 /** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: <explanation> */
 /** biome-ignore-all lint/correctness/useExhaustiveDependencies: <explanation> */
 /** biome-ignore-all lint/style/noMagicNumbers: <explanation> */
+"use client";
+
 import { File, RotateCw, Trash2, UploadCloudIcon, X } from "lucide-react";
 import type React from "react";
 import { useCallback, useRef, useState } from "react";
@@ -16,6 +18,10 @@ import {
   DialogTitle,
 } from "@/shared/components/ui/dialog";
 import { cn } from "@/shared/lib/utils";
+import { useDocumentUploadMutation } from "@/shared/repository/document/query";
+import { useDocumentStore } from "@/shared/stores/use-document-upload";
+import { useFileUploadStore } from "../stores/file-upload-store";
+import { useContractFiles } from "../stores/use-contract-file";
 
 export type FileStatus = "uploading" | "failed" | "success";
 
@@ -46,8 +52,8 @@ export default function FileUploadModal({
   onOpenChange,
   onSave,
   maxFiles = 5,
-  maxSize = 10,
-  acceptedFileTypes = [".jpg", ".png"],
+  maxSize = 20,
+  acceptedFileTypes = [".jpg", ".png", ".pdf", ".doc", ".docx"],
   title = "Unggah Dokumen",
   description = "Tambahkan dokumen disini dan hanya bisa mengunggah maksimal 5 file",
   saveButtonText = "Simpan",
@@ -56,6 +62,14 @@ export default function FileUploadModal({
   const [files, setFiles] = useState<FileItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Server action mutation
+  const { mutate: uploadDocument, isPending: isUploadPending } =
+    useDocumentUploadMutation();
+
+  // Stores
+  const { setIsUploading, addUploadedDocument, setUploadError, uploadError } =
+    useDocumentStore();
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -75,10 +89,7 @@ export default function FileUploadModal({
   }, []);
 
   const processFile = (file: File): FileItem => {
-    // Generate a unique ID for the file
     const id = Math.random().toString(36).substring(2, 9);
-
-    // Simulate file upload with progress
     const newFile: FileItem = {
       id,
       name: file.name,
@@ -88,7 +99,7 @@ export default function FileUploadModal({
       file,
     };
 
-    // Simulate upload progress
+    // Simulate upload progress for UI
     const interval = setInterval(() => {
       setFiles((prevFiles) => {
         const fileIndex = prevFiles.findIndex((f) => f.id === id);
@@ -110,15 +121,28 @@ export default function FileUploadModal({
         } else {
           updatedFiles[fileIndex] = {
             ...currentFile,
-            progress: currentFile.progress + 5,
+            progress: currentFile.progress + 10,
           };
         }
 
         return updatedFiles;
       });
-    }, 200);
+    }, 150);
 
     return newFile;
+  };
+
+  const validateFile = (file: File): string | null => {
+    if (file.size > maxSize * 1024 * 1024) {
+      return `File ${file.name} melebihi ukuran maksimal ${maxSize}MB.`;
+    }
+
+    const fileExtension = `.${file.name.split(".").pop()?.toLowerCase()}`;
+    if (!acceptedFileTypes.includes(fileExtension)) {
+      return `Tipe file ${fileExtension} tidak didukung.`;
+    }
+
+    return null;
   };
 
   const handleDrop = useCallback(
@@ -130,33 +154,18 @@ export default function FileUploadModal({
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         const newFiles = Array.from(e.dataTransfer.files);
 
-        // Check if adding these files would exceed the maximum
         if (files.length + newFiles.length > maxFiles) {
-          alert(`You can only upload a maximum of ${maxFiles} files.`);
+          alert(`Anda hanya bisa mengunggah maksimal ${maxFiles} file.`);
           return;
         }
 
-        // Process each file
         const processedFiles = newFiles
           .map((file) => {
-            // Check file size
-            if (file.size > maxSize * 1024 * 1024) {
-              alert(
-                `File ${file.name} exceeds the maximum size of ${maxSize}MB.`
-              );
+            const validationError = validateFile(file);
+            if (validationError) {
+              alert(validationError);
               return null;
             }
-
-            // Check file type
-            const fileExtension = `.${file.name
-              .split(".")
-              .pop()
-              ?.toLowerCase()}`;
-            if (!acceptedFileTypes.includes(fileExtension)) {
-              alert(`File type ${fileExtension} is not supported.`);
-              return null;
-            }
-
             return processFile(file);
           })
           .filter(Boolean) as FileItem[];
@@ -172,33 +181,18 @@ export default function FileUploadModal({
       if (e.target.files && e.target.files.length > 0) {
         const newFiles = Array.from(e.target.files);
 
-        // Check if adding these files would exceed the maximum
         if (files.length + newFiles.length > maxFiles) {
-          alert(`You can only upload a maximum of ${maxFiles} files.`);
+          alert(`Anda hanya bisa mengunggah maksimal ${maxFiles} file.`);
           return;
         }
 
-        // Process each file
         const processedFiles = newFiles
           .map((file) => {
-            // Check file size
-            if (file.size > maxSize * 1024 * 1024) {
-              alert(
-                `File ${file.name} exceeds the maximum size of ${maxSize}MB.`
-              );
+            const validationError = validateFile(file);
+            if (validationError) {
+              alert(validationError);
               return null;
             }
-
-            // Check file type
-            const fileExtension = `.${file.name
-              .split(".")
-              .pop()
-              ?.toLowerCase()}`;
-            if (!acceptedFileTypes.includes(fileExtension)) {
-              alert(`File type ${fileExtension} is not supported.`);
-              return null;
-            }
-
             return processFile(file);
           })
           .filter(Boolean) as FileItem[];
@@ -206,7 +200,6 @@ export default function FileUploadModal({
         setFiles((prev) => [...prev, ...processedFiles]);
       }
 
-      // Reset the input value so the same file can be selected again
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -238,7 +231,6 @@ export default function FileUploadModal({
         status: "uploading",
       };
 
-      // Simulate upload progress again
       const interval = setInterval(() => {
         setFiles((prevFiles) => {
           const currentFileIndex = prevFiles.findIndex((f) => f.id === id);
@@ -255,27 +247,110 @@ export default function FileUploadModal({
             updatedFiles[currentFileIndex] = {
               ...currentFile,
               progress: 100,
-              status: "success", // Always succeed on retry for better UX
+              status: "success",
             };
           } else {
             updatedFiles[currentFileIndex] = {
               ...currentFile,
-              progress: currentFile.progress + 5,
+              progress: currentFile.progress + 10,
             };
           }
 
           return updatedFiles;
         });
-      }, 200);
+      }, 150);
 
       return updatedFiles;
     });
   }, []);
 
   const handleSave = useCallback(() => {
-    onSave(files);
-    onOpenChange(false);
-  }, [files, onSave, onOpenChange]);
+    if (files.length > 0) {
+      const uploadedFile = files[0]?.file;
+      if (uploadedFile) {
+        setIsUploading(true);
+        setUploadError(null);
+
+        uploadDocument(uploadedFile, {
+          onSuccess: (result) => {
+            if (result.success && result.data) {
+              // Handle successful upload
+              if (result.data && typeof result.data === "object") {
+                addUploadedDocument(result.data);
+
+                // Extract contract data if available in response
+                if (result.data.meta_data) {
+                  let metaData;
+                  try {
+                    metaData = JSON.parse(result.data.meta_data); // <-- parse dulu
+                  } catch (e) {
+                    console.error("Gagal parse meta_data:", e);
+                    metaData = {};
+                  }
+
+                  useFileUploadStore.getState().setContractData({
+                    company: metaData.external_company_name || "",
+                    contractName: metaData.contract_title || "",
+                    startDate: metaData.contract_start_date || "",
+                    endDate: metaData.contract_end_date || "",
+                  });
+
+                  console.log("====================================");
+                  console.log("extract parse:", metaData);
+                  console.log("====================================");
+                }
+              }
+
+              // Update existing stores
+              useFileUploadStore.getState().setUploadedFile(uploadedFile);
+              useContractFiles.getState().setFile("administrasi", uploadedFile);
+
+              onOpenChange(false);
+
+              // Your existing flow
+              useFileUploadStore.getState().setLoadingModal(true);
+              setTimeout(() => {
+                useFileUploadStore.getState().setLoadingModal(false);
+                useFileUploadStore.getState().setContractModal(true);
+              }, 2000);
+
+              console.log("Document uploaded successfully:", result.data);
+            } else {
+              // Handle failed upload with error message from server
+              const errorMessage =
+                result.error || result.message || "Upload gagal";
+              setUploadError(errorMessage);
+              console.error("Upload failed:", result);
+            }
+            setIsUploading(false);
+          },
+          onError: (error) => {
+            console.error("Upload failed:", error);
+            let errorMessage = "Upload gagal";
+
+            // Extract error message from different error formats
+            if (error?.response?.data?.error) {
+              errorMessage = error.response.data.error;
+            } else if (error?.response?.data?.message) {
+              errorMessage = error.response.data.message;
+            } else if (error?.message) {
+              errorMessage = error.message;
+            }
+
+            setUploadError(errorMessage);
+            setIsUploading(false);
+          },
+        });
+      }
+    }
+  }, [
+    files,
+    onOpenChange,
+    uploadDocument,
+    setIsUploading,
+    addUploadedDocument,
+    setUploadError,
+  ]);
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) {
@@ -286,6 +361,11 @@ export default function FileUploadModal({
     }
     return `${Math.round(bytes / (1024 * 1024))}mb`;
   };
+
+  const isUploadDisabled =
+    files.length === 0 ||
+    files.some((f) => f.status !== "success") ||
+    isUploadPending;
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
@@ -336,6 +416,14 @@ export default function FileUploadModal({
           Hanya mendukung file {acceptedFileTypes.join(", ")}
         </p>
 
+        {uploadError && (
+          <div className="rounded-md border border-red-200 bg-red-50 p-3">
+            <div className="text-red-800 text-sm">
+              <strong>Error:</strong> {uploadError}
+            </div>
+          </div>
+        )}
+
         {files.length > 0 && (
           <div className="mt-4 space-y-2">
             {files.map((file) => (
@@ -383,7 +471,7 @@ export default function FileUploadModal({
 
                   {file.status === "success" && (
                     <button
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-red-500 hover:text-red-700"
                       onClick={() => handleRemoveFile(file.id)}
                       type="button"
                     >
@@ -414,6 +502,7 @@ export default function FileUploadModal({
         <DialogFooter className="flex justify-end gap-2">
           {cancelButtonText && (
             <Button
+              disabled={isUploadPending}
               onClick={() => onOpenChange(false)}
               type="button"
               variant="secondary"
@@ -422,13 +511,11 @@ export default function FileUploadModal({
             </Button>
           )}
           <Button
-            disabled={
-              files.length === 0 || files.some((f) => f.status !== "success")
-            }
+            disabled={isUploadDisabled}
             onClick={handleSave}
             type="button"
           >
-            {saveButtonText}
+            {isUploadPending ? "Mengunggah..." : saveButtonText}
           </Button>
         </DialogFooter>
       </DialogContent>

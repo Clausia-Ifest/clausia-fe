@@ -20,7 +20,7 @@ import {
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
 
-export default function TaskCard() {
+export default function TaskCard({ bearer }: { bearer: boolean }) {
   const reviews = [
     {
       company: "PT Citra Kara",
@@ -57,15 +57,21 @@ export default function TaskCard() {
   ];
 
   return (
-    <Card className="rounded-2xl shadow-md">
+    <Card
+      className={`${bearer ? "rounded-2xl shadow-md" : "border-0 p-0 shadow-none"}`}
+    >
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="font-semibold text-lg">Jadwal Hari Ini</CardTitle>
-        <Button
-          className="rounded-full bg-primary text-white hover:bg-primary/90"
-          size="icon"
-        >
-          <Plus className="h-5 w-5" />
-        </Button>
+        {bearer && (
+          <Button
+            aria-label="Tambah"
+            className="rounded-full bg-primary text-white hover:bg-primary/90"
+            size="icon"
+            type="button"
+          >
+            <Plus className="h-5 w-5" />
+          </Button>
+        )}
       </CardHeader>
       <CardContent>
         <Tabs className="w-full" defaultValue="reviews">
@@ -85,11 +91,14 @@ export default function TaskCard() {
           </TabsList>
 
           {/* Meetings */}
-          <TabsContent className="mt-4 space-y-4" value="reviews">
+          <TabsContent
+            className={`${bearer ? "mt-4 space-y-4" : "mt-2 space-y-2"}`}
+            value="reviews"
+          >
             {reviews.map((review, i) => (
               <div
                 className="flex items-start justify-between rounded-lg border-primary border-l-4 bg-white p-3 shadow-sm"
-                key={i.toString()}
+                key={review.company + i.toString()}
               >
                 <div>
                   <h3 className="font-medium">{review.company}</h3>

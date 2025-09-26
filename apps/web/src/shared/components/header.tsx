@@ -16,8 +16,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { useLogoutMutation } from "../repository/auth/query";
+import { useSessionQuery } from "../repository/session-manager/query";
 
 export default function Header() {
+  const { data: session } = useSessionQuery();
+  const { isPending, mutate: logout } = useLogoutMutation();
   const now = new Date();
   const formattedDate = format(now, "d MMMM yyyy");
   return (
@@ -53,15 +57,18 @@ export default function Header() {
             <TooltipTrigger asChild>
               <div className="relative flex cursor-pointer items-center gap-2">
                 <Avatar className="size-8">
-                  <AvatarImage alt="Johny Larsen" src="/avatar/johny.png" />
-                  <AvatarFallback>JL</AvatarFallback>
+                  <AvatarImage
+                    alt={session?.full_name}
+                    src="/avatar/johny.png"
+                  />
+                  <AvatarFallback>{session?.full_name}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col justify-center">
                   <span className="font-semibold text-sm leading-tight">
-                    Johny Larsen
+                    {session?.full_name}
                   </span>
                   <span className="text-gray-400 text-xs leading-tight">
-                    Admin
+                    {session?.role}
                   </span>
                 </div>
               </div>
@@ -78,13 +85,15 @@ export default function Header() {
                 <UserRoundPen className="mr-2 inline h-4 w-4 text-gray-400" />
                 Edit Profile
               </Link>
-              <Link
+              <Button
                 className="w-full px-4 py-2 text-left text-red-500 text-sm transition-colors hover:bg-neutral-100"
-                href="/"
+                disabled={isPending}
+                onClick={() => logout()}
+                variant="ghost"
               >
                 <LogOut className="mr-2 inline h-4 w-4" />
-                Logout
-              </Link>
+                {isPending ? "Logging out..." : "Logout"}
+              </Button>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

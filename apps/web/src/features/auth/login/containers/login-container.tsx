@@ -9,7 +9,7 @@ import SocialButtons from "../components/social-button";
 
 export default function LoginPage() {
   return (
-    <section className="container mx-auto grid h-screen w-full grid-cols-2">
+    <section className="container mx-auto grid h-screen w-full grid-cols-2 overflow-hidden">
       {/* Background */}
       <Image
         alt="Clausia Background"

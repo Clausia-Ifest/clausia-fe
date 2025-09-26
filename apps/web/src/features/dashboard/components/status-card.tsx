@@ -2,7 +2,7 @@ import { TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/shared/components/ui/card";
 
-export function StatusCard() {
+export function StatusCard({ bearer }: { bearer: boolean }) {
   const items = [
     {
       title: "Menunggu Review",
@@ -21,10 +21,28 @@ export function StatusCard() {
     },
   ];
 
+  const legalItems = [
+    {
+      title: "Kontrak baru",
+      value: "150,000",
+      desc: "Kontrak direview",
+    },
+    {
+      title: "Kontrak dalam review",
+      value: "150,000",
+      desc: "Kontrak disetujui",
+    },
+    {
+      title: "Kontrak sudah direview",
+      value: "150,000",
+      desc: "Kontrak disetujui",
+    },
+  ];
+
   return (
-    <Card className="w-3/5">
+    <Card className={bearer ? "w-3/5" : "w-full"}>
       <CardContent className="grid grid-cols-3 gap-2">
-        {items.map((item) => (
+        {(bearer ? items : legalItems).map((item) => (
           <div className="space-y-2" key={item.title}>
             <p className="font-body-2-medium">{item.title}</p>
             <p className="font-heading-2-medium">{item.value}</p>
@@ -38,7 +56,7 @@ export function StatusCard() {
           </div>
         ))}
       </CardContent>
-      <CardFooter className="px-3">
+      <CardFooter className={`${bearer ? "block px-3" : "hidden"}`}>
         <footer className="flex flex-col items-start gap-1 border-l-3 border-l-primary pl-3">
           <p className="font-body-1-semibold">Insight</p>
           <ul className="list-disc pl-5 font-body-4-medium text-muted-foreground">

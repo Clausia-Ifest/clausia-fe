@@ -7,9 +7,13 @@ import UploadCard from "@/features/dashboard/components/upload-card";
 import { useDashboard } from "@/features/dashboard/hooks/use-dashboard";
 import { GradientAreaChart } from "@/shared/components/gradient-chart";
 import { Calendar } from "@/shared/components/ui/calendar";
+import { useSessionQuery } from "@/shared/repository/session-manager/query";
+import ContractsTable from "../components/contracts-table";
 
 export default function DashboardContainer() {
   const { date, setDate } = useDashboard();
+  const { data: session } = useSessionQuery();
+  const isAdmin = session?.role === "Admin";
 
   return (
     <main className="grid h-max w-full gap-8">
@@ -18,38 +22,51 @@ export default function DashboardContainer() {
           {/* title */}
           <div>
             <h1 className="font-heading-2-medium">
-              Dashboard Staff Operasional
+              {isAdmin ? "Dashboard Staff Operasional" : "Dashboard Legal"}
             </h1>
             <p className="font-body-semibold text-muted-foreground">
-              Dashboard Staff Operasional
+              {isAdmin
+                ? "Dashboard Staff Operasional"
+                : "Lihat Dashboard dan temukan insight untuk operasional kontrakmu !"}
             </p>
           </div>
 
           {/* upload */}
-          <UploadCard />
+          <UploadCard bearer={isAdmin} />
 
           {/* statistik */}
-          <div className="flex gap-4">
-            <StatsCard />
-            <StatusCard />
-          </div>
+          {isAdmin ? (
+            <div className="flex gap-4">
+              <StatsCard />
+              <StatusCard bearer={isAdmin} />
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-4" />
+              <StatusCard bearer={isAdmin} />
+            </>
+          )}
 
           {/* chart */}
-          <GradientAreaChart />
+          {isAdmin && <GradientAreaChart />}
         </section>
 
         {/* aside */}
         <aside className="w-1/4 space-y-4">
-          <Calendar
-            captionLayout="dropdown"
-            className="w-full rounded-md border shadow-sm"
-            mode="single"
-            onSelect={setDate}
-            selected={date}
-          />
-          <TaskCard />
+          {isAdmin && (
+            <Calendar
+              captionLayout="dropdown"
+              className="w-full rounded-md border shadow-sm"
+              mode="single"
+              onSelect={setDate}
+              selected={date}
+            />
+          )}
+
+          <TaskCard bearer={isAdmin} />
         </aside>
       </div>
+      {!isAdmin && <ContractsTable />}
     </main>
   );
 }
