@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <main className="relative flex">
       <SidebarDashboard />
-      <div className="ml-20 min-h-screen w-full p-8">
+      <div className="min-h-screen w-full p-8">
         <Header />
         {children}
       </div>
