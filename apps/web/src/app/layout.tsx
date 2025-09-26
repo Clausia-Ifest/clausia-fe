@@ -1,7 +1,6 @@
 import "@/shared/styles/globals.css";
 import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
-import Header from "@/shared/components/header";
 import Providers from "@/shared/components/providers";
 
 const geistMono = Geist_Mono({
@@ -30,12 +29,7 @@ export default function RootLayout({
       <body
         className={`${poppins.className} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          <div className="grid h-svh grid-rows-[auto_1fr]">
-            <Header />
-            {children}
-          </div>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
