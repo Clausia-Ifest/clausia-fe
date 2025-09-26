@@ -2,7 +2,9 @@
 
 import { format } from "date-fns";
 import { Bell, CalendarIcon, LogOut, Search, UserRoundPen } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import logo from "@/public/clausia/icon-blue.svg";
 import {
   Avatar,
   AvatarFallback,
@@ -26,6 +28,7 @@ export default function Header() {
   const formattedDate = format(now, "d MMMM yyyy");
   return (
     <header className="mb-8 flex items-center justify-between gap-4">
+      <Image alt="Clausia" height={40} src={logo} width={40} />
       <div className="relative flex flex-1 items-center gap-4">
         <Search className="absolute left-2 size-6 pl-2 text-gray-400" />
         <Input

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentType } from "react";
 import { useState } from "react";
+import { useSessionQuery } from "../repository/session-manager/query";
 
 type SideMenuItem = {
   label: string;
@@ -105,6 +106,7 @@ export default function SidebarDashboard() {
   const [expanded, setExpanded] = useState(false);
   const InitWidth = 80;
   const ExpandWidth = 220;
+  const { data: session } = useSessionQuery();
   return (
     <motion.aside
       animate={{ width: expanded ? ExpandWidth : InitWidth }}
