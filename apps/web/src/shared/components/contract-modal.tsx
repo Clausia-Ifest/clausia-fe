@@ -49,7 +49,7 @@ export function ContractModal() {
       return;
     }
     if (file.size > MaxSize) {
-      alert("Maksimal ukuran file 10MB");
+      alert("Maksimal ukuran file 15MB");
       return;
     }
     setFile(type, { name: file.name, size: file.size });
