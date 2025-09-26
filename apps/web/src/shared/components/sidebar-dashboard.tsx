@@ -109,7 +109,7 @@ export default function SidebarDashboard() {
     <motion.aside
       animate={{ width: expanded ? ExpandWidth : InitWidth }}
       aria-label="Sidebar"
-      className="absolute top-0 left-0 z-20 h-[100dvh] p-2.5 py-10"
+      className="sticky top-0 left-0 z-20 h-[100dvh] p-2.5 py-10"
       initial={{ width: 80 }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
