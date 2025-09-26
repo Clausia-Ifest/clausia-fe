@@ -1,6 +1,5 @@
 "use client";
 
-import ContractsTable from "@/features/dashboard/components/contracts-table";
 import { StatsCard } from "@/features/dashboard/components/stat-card";
 import { StatusCard } from "@/features/dashboard/components/status-card";
 import TaskCard from "@/features/dashboard/components/task-card";
@@ -51,9 +50,6 @@ export default function DashboardContainer() {
           <TaskCard />
         </aside>
       </div>
-
-      {/* table */}
-      <ContractsTable />
     </main>
   );
 }

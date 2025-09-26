@@ -21,7 +21,7 @@ import {
 } from "@/shared/components/ui/tabs";
 
 export default function TaskCard() {
-  const meetings = [
+  const reviews = [
     {
       company: "PT Citra Kara",
       status: "Menunggu Review",
@@ -35,6 +35,23 @@ export default function TaskCard() {
     {
       company: "PT Citra Kara",
       status: "Menunggu Review",
+      image: "/avatars/team3.jpg",
+    },
+  ];
+  const expired = [
+    {
+      company: "PT Citra Kara",
+      status: "Jatuh Tempo",
+      image: "/avatars/team1.jpg",
+    },
+    {
+      company: "PT Citra Kara",
+      status: "Jatuh Tempo",
+      image: "/avatars/team2.jpg",
+    },
+    {
+      company: "PT Citra Kara",
+      status: "Jatuh Tempo",
       image: "/avatars/team3.jpg",
     },
   ];
@@ -69,22 +86,22 @@ export default function TaskCard() {
 
           {/* Meetings */}
           <TabsContent className="mt-4 space-y-4" value="meetings">
-            {meetings.map((meeting, i) => (
+            {reviews.map((review, i) => (
               <div
                 className="flex items-start justify-between rounded-lg border-primary border-l-4 bg-white p-3 shadow-sm"
                 key={i.toString()}
               >
                 <div>
-                  <h3 className="font-medium">{meeting.company}</h3>
+                  <h3 className="font-medium">{review.company}</h3>
                   <p className="rounded-full font-body-3-medium text-warning-600">
-                    • {meeting.status}
+                    • {review.status}
                   </p>
                   <p className="mt-1 inline-block font-medium text-primary text-sm hover:underline">
                     Ingatkan Lagi →
                   </p>
                 </div>
                 <Avatar>
-                  <AvatarImage alt={meeting.company} src={meeting.image} />
+                  <AvatarImage alt={review.company} src={review.image} />
                   <AvatarFallback>TM</AvatarFallback>
                 </Avatar>
               </div>
@@ -93,9 +110,26 @@ export default function TaskCard() {
 
           {/* Jatuh Tempo */}
           <TabsContent className="mt-4 space-y-2" value="jatuh-tempo">
-            <p className="text-muted-foreground text-sm">
-              Belum ada kontrak jatuh tempo hari ini.
-            </p>
+            {expired.map((items, i) => (
+              <div
+                className="flex items-start justify-between rounded-lg border-primary border-l-4 bg-white p-3 shadow-sm"
+                key={i.toString()}
+              >
+                <div>
+                  <h3 className="font-medium">{items.company}</h3>
+                  <p className="rounded-full font-body-3-medium text-danger-600">
+                    • {items.status}
+                  </p>
+                  <p className="mt-1 inline-block font-medium text-primary text-sm hover:underline">
+                    Ingatkan Lagi →
+                  </p>
+                </div>
+                <Avatar>
+                  <AvatarImage alt={items.company} src={items.image} />
+                  <AvatarFallback>TM</AvatarFallback>
+                </Avatar>
+              </div>
+            ))}
           </TabsContent>
         </Tabs>
       </CardContent>
