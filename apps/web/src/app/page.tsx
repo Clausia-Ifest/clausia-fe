@@ -1,30 +1,26 @@
-"use client";
-
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
+import { Footer } from "react-day-picker";
+import { AboutSection } from "@/features/home/about";
+import { HowItWorksSection } from "@/features/home/cara-kerja";
+import { FeaturesSection } from "@/features/home/feature";
+import { HeroSection } from "@/features/home/hero";
+import { PartnersSection } from "@/features/home/partner";
+import { ValuesSection } from "@/features/home/value";
+import { WhySection } from "@/features/home/why";
+import { Navbar } from "@/shared/components/navbar";
 
 export default function Home() {
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto text-sm">{TITLE_TEXT}</pre>
-      <div className="grid gap-6">
-        <section className="rounded-lg border p-4">
-          <h2 className="mb-2">API Status</h2>
-        </section>
-      </div>
-    </div>
+    <>
+      <Navbar />
+
+      <HeroSection />
+      <FeaturesSection />
+      <AboutSection />
+      <WhySection />
+      <ValuesSection />
+      <HowItWorksSection />
+      <PartnersSection />
+      <Footer />
+    </>
   );
 }

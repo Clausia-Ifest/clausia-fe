@@ -4,7 +4,7 @@
 import { apiFetch } from "@/shared/lib/api/fetcher";
 import { env } from "@/shared/lib/env";
 import { getSession } from "../session-manager/action";
-import type { ContractsResponse } from "./dto";
+import type { Contract, ContractsResponse } from "./dto";
 
 export async function getContracts() {
   const res = await apiFetch<ContractsResponse>({
@@ -15,6 +15,40 @@ export async function getContracts() {
   });
 
   return res;
+}
+export async function getContractsById(id: string) {
+  const res = await apiFetch<Contract>({
+    url: `${env.API_URL}/contracts/${id}`,
+    options: {
+      method: "GET",
+    },
+  });
+
+  return res;
+}
+
+export async function getChatBotResponse(message: string, id: string) {
+  const session = await getSession();
+  const token = session?.access_token;
+
+  const res = await fetch(`${env.API_URL}/contracts/${id}/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ message }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Gagal fetch response chatbot");
+  }
+
+  const data = await res.json();
+  console.log("====================================");
+  console.log(data);
+  console.log("====================================");
+  return { answer: data.response as string };
 }
 
 export async function submitContracts(data: FormData) {
