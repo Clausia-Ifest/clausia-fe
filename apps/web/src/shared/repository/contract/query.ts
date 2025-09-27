@@ -1,13 +1,34 @@
 /** biome-ignore-all lint/style/noMagicNumbers: <explanation> */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { getContracts, sendContract, submitContracts } from "./action";
+import {
+  getChatBotResponse,
+  getContracts,
+  getContractsById,
+  sendContract,
+  submitContracts,
+} from "./action";
 
 export const useContractsQuery = () =>
   useQuery({
     queryKey: ["contracts"],
     queryFn: () => getContracts(),
     staleTime: 1000 * 60 * 5,
+  });
+export const useContractQueryById = (id: string) =>
+  useQuery({
+    queryKey: ["contract", id],
+    queryFn: () => getContractsById(id),
+    staleTime: 1000 * 60 * 5,
+  });
+
+export const useChatBotResponseMutation = () =>
+  useMutation({
+    mutationFn: ({ message, id }: { message: string; id: string }) =>
+      getChatBotResponse(message, id),
+    onSuccess: (res) => {
+      console.log("default success:", res);
+    },
   });
 
 export const useSendContractMutation = () => {

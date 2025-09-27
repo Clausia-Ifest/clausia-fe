@@ -10,15 +10,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="relative flex">
-      <SidebarDashboard />
-      <div className="min-h-screen w-full p-8">
-        <Header />
-        <ModalLoading />
-        <ContractModal />
-        <SuccessModal />
-        {children}
+    <>
+      <div className="grid h-screen w-full place-items-center text-center">
+        <h1 className="max-w-md px-4 font-semibold text-primary md:hidden">
+          Harap Menggunakan Perangkat Dengan Layar Yang Lebih Besar Untuk
+          Mengakses Dashboard
+        </h1>
       </div>
-    </main>
+      <main className="relative hidden md:flex">
+        <SidebarDashboard />
+        <div className="min-h-screen w-full p-8">
+          <Header />
+          <ModalLoading />
+          <ContractModal />
+          <SuccessModal />
+          {children}
+        </div>
+      </main>
+    </>
   );
 }

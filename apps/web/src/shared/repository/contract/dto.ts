@@ -10,12 +10,14 @@ export type Contract = {
   status: string;
   application_status: string;
   category: string;
+  risk_detection: string;
   start_date: string;
   end_date: string;
   documents: {
     hash: string;
     url: string;
     category: string;
+    content?: string;
   }[];
 };
 

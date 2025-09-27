@@ -27,7 +27,7 @@ export default function Slides() {
       <AnimatePresence mode="wait">
         <motion.div
           animate={{ x: 0, opacity: 1 }}
-          className="h-20"
+          className="h-max md:h-20"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           exit={{ x: -50, opacity: 0 }}
