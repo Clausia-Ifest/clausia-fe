@@ -55,7 +55,7 @@ export const useFileUploadStore = create<FileUploadState>((set) => ({
 
   // Contract data initialization
   contractData: {
-    contractName: "adawd",
+    contractName: "",
     company: "",
     startDate: "",
     endDate: "",

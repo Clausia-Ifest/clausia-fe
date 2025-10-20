@@ -6,7 +6,7 @@ import logo from "@/public/clausia/icon-primary-title.svg";
 import { useSessionQuery } from "../repository/session-manager/query";
 
 export function Navbar() {
-  const session = useSessionQuery();
+  const { data: session } = useSessionQuery();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background shadow-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-1">
@@ -30,7 +30,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {session ? (
+          {session?.access_token ? (
             <Link
               className="rounded-xl bg-primary p-2 px-5 text-primary-foreground hover:opacity-90"
               href={"/dashboard"}

@@ -52,6 +52,7 @@ body {
   @media (prefers-color-scheme: light) {
     color-scheme: light;
   }
+  scroll-behavior: smooth;
 }
 
 :root {

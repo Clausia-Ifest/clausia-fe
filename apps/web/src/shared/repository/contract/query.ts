@@ -37,7 +37,7 @@ export const useSendContractMutation = () => {
   return useMutation({
     mutationFn: (contractId: string) => sendContract(contractId),
     onSuccess: (_, contractId) => {
-      queryClient.setQueryData<any>(["contracts"], (old) => {
+      queryClient.setQueryData<any>(["contracts"], (old: any) => {
         if (!old) {
           return old;
         }
@@ -67,7 +67,7 @@ export const useSubmitContractsMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["contracts"] });
     },
     onError: (error: Error) => {
-      toast.error(`Gagal submit kontrak: ${error.message}`);
+      console.error(error);
     },
   });
 };

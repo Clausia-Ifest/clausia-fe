@@ -3,9 +3,12 @@
 import { motion } from "framer-motion";
 import { Bot, List, Send, ShieldQuestion } from "lucide-react";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { getChatBotResponse } from "@/shared/repository/contract/action";
+import { useSessionQuery } from "@/shared/repository/session-manager/query";
+import { formatBotAnswer } from "@/shared/utils/bot-template";
 
 type Message = {
   id: number;
@@ -15,11 +18,12 @@ type Message = {
 };
 
 export default function ClauBot({ id }: { id: string }) {
+  const { data: session } = useSessionQuery();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       sender: "bot",
-      text: "Selamat pagi, Salsabilah!\n\nLaporan studi ini membahas faktor-faktor ...",
+      text: `Selamat pagi, ${session?.full_name}!\n\nLaporan studi ini membahas faktor-faktor ...`,
     },
   ]);
 
@@ -50,9 +54,19 @@ export default function ClauBot({ id }: { id: string }) {
     try {
       const res = await getChatBotResponse(userMsg.text!, id);
 
+      let formatted: string;
+
+      if (typeof res.answer === "string") {
+        // kalau jawabannya plain text
+        formatted = res.answer;
+      } else {
+        // kalau jawabannya template hukum
+        formatted = formatBotAnswer(userMsg.text!, res.answer);
+      }
+
       setMessages((prev) =>
         prev.map((m) =>
-          m.thinking ? { ...m, thinking: false, text: res.answer } : m
+          m.thinking ? { ...m, thinking: false, text: formatted } : m
         )
       );
     } catch (err) {
@@ -111,7 +125,7 @@ export default function ClauBot({ id }: { id: string }) {
                 <div className="h-2 w-2 rounded-full bg-gray-400" />
               </motion.div>
             ) : (
-              msg.text
+              <ReactMarkdown>{msg.text || ""}</ReactMarkdown>
             )}
           </motion.div>
         ))}

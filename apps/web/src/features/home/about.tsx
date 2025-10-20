@@ -11,8 +11,12 @@ export function AboutSection() {
       className="relative bg-background py-16 md:py-48"
       id="about"
     >
-      <Image alt="a" className="absolute right-0 bottom-16" src={bungaAtas} />
-      <Image alt="a" className="absolute top-0 left-0" src={bungaAtas} />
+      <Image
+        alt="a"
+        className="absolute right-0 bottom-16 z-0"
+        src={bungaAtas}
+      />
+      <Image alt="a" className="absolute top-0 left-0 z-0" src={bungaAtas} />
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
           <div>
@@ -23,7 +27,7 @@ export function AboutSection() {
               src={foto}
             />
           </div>
-          <div>
+          <div className="z-10">
             <h2
               className="text-pretty font-semibold text-3xl text-primary md:text-4xl"
               id="about-title"

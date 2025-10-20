@@ -27,28 +27,36 @@ export async function getContractsById(id: string) {
   return res;
 }
 
-export async function getChatBotResponse(message: string, id: string) {
-  const session = await getSession();
-  const token = session?.access_token;
+import type { BotAnswer } from "@/shared/utils/bot-template";
 
-  const res = await fetch(`${env.API_URL}/contracts/${id}/chat`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ message }),
-  });
+export async function getChatBotResponse(
+  question: string,
+  id: string
+): Promise<{ answer: BotAnswer | string }> {
+  // simulasi delay biar realistis
+  await new Promise((res) => setTimeout(res, 5000));
 
-  if (!res.ok) {
-    throw new Error("Gagal fetch response chatbot");
+  // Kondisi khusus: kalau user bilang "terima kasih" atau "mengerti"
+  if (/terima kasih|mengerti/i.test(question)) {
+    return {
+      answer:
+        "🙏 Sama-sama! Senang bisa membantu. Jika ada pertanyaan lain seputar kontrak atau hukum, silakan tanyakan kembali ya.",
+    };
   }
 
-  const data = await res.json();
-  console.log("====================================");
-  console.log(data);
-  console.log("====================================");
-  return { answer: data.response as string };
+  // Default jawaban template hukum
+  const mockAnswer: BotAnswer = {
+    definisi:
+      "Risiko yang dimaksud adalah potensi kerugian ekonomi, sosial, maupun lingkungan akibat penggunaan lahan yang tidak sesuai dengan rencana tata ruang.",
+    hukum:
+      "UU No. 26 Tahun 2007 tentang Penataan Ruang, khususnya Pasal 37–38 mengenai kewajiban pemanfaatan ruang.",
+    analisis:
+      "Jika penggunaan lahan menyimpang, dapat menimbulkan konflik kepemilikan, penurunan nilai aset, hingga sanksi administratif atau pidana.",
+    kesimpulan:
+      "Sebaiknya dilakukan audit kesesuaian lahan dengan tata ruang serta mitigasi hukum agar tidak menimbulkan sengketa di masa depan.",
+  };
+
+  return { answer: mockAnswer };
 }
 
 export async function submitContracts(data: FormData) {

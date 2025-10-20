@@ -30,11 +30,15 @@ export function HowItWorksSection() {
       className="relative w-full border-y bg-primary-50"
       id="how"
     >
-      <Image alt="a" className="absolute top-0 right-0" src={bungaAtas} />
-      <Image alt="a" className="absolute bottom-0 left-0" src={bungaBawah} />
+      <Image alt="a" className="absolute top-0 right-0 z-0" src={bungaAtas} />
+      <Image
+        alt="a"
+        className="absolute bottom-0 left-0 z-0"
+        src={bungaBawah}
+      />
       <div className="mx-auto max-w-6xl px-4 py-14">
-        <div className="grid items-start gap-8 md:grid-cols-[1fr_2fr]">
-          <div className="space-y-4">
+        <div className="z-10 grid items-start gap-8 md:grid-cols-[1fr_2fr]">
+          <div className="z-10">
             <h2
               className="text-pretty font-semibold text-2xl text-primary md:text-3xl"
               id="how-title"
@@ -52,7 +56,7 @@ export function HowItWorksSection() {
             </Button>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {steps.map((s, i) => (
               <div
                 className="rounded-xl border bg-background p-5 shadow-sm"

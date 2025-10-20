@@ -11,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <div className="grid h-screen w-full place-items-center text-center">
+      <div className="grid h-screen w-full place-items-center text-center md:hidden">
         <h1 className="max-w-md px-4 font-semibold text-primary md:hidden">
           Harap Menggunakan Perangkat Dengan Layar Yang Lebih Besar Untuk
           Mengakses Dashboard

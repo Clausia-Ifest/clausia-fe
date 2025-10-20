@@ -86,7 +86,7 @@ export function useContractModal() {
     }
   }, [uploadedFile, form]);
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append("start_date", data.startDate);
     formData.append("end_date", data.endDate);
@@ -98,9 +98,7 @@ export function useContractModal() {
     formData.append("legal_document", data.docLegal ?? "");
     formData.append("technical_document", data.docTeknis ?? "");
     formData.append("financial_document", data.docKeuangan ?? "");
-    console.log("====================================");
-    console.log(Object.fromEntries(formData.entries()));
-    console.log("====================================");
+
     mutate(formData);
     setContractModal(false);
     reset();

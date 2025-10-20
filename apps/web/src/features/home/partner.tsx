@@ -12,7 +12,7 @@ export function PartnersSection() {
           Partner Inovasi Kami
         </h2>
 
-        <div className="p-12">
+        <div className="pointer-events-none select-none p-12">
           <Image alt="Logo partner" className="h-full w-full" src={partner} />
         </div>
 
