@@ -30,7 +30,11 @@ export function HowItWorksSection() {
       className="relative w-full border-y bg-primary-50"
       id="how"
     >
-      <Image alt="a" className="absolute top-0 right-0 z-0" src={bungaAtas} />
+      <Image
+        alt="a"
+        className="absolute top-0 right-0 z-0 w-auto"
+        src={bungaAtas}
+      />
       <Image
         alt="a"
         className="absolute bottom-0 left-0 z-0"

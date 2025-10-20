@@ -1,4 +1,3 @@
-import { Button } from "@/shared/components/ui/button";
 import Slides from "../auth/login/components/slide";
 
 export function HeroSection() {
@@ -12,7 +11,7 @@ export function HeroSection() {
         backgroundPosition: "center",
       }}
     >
-      <div className="relative mx-auto flex h-full w-1/2 items-center">
+      <div className="relative mx-auto flex h-full w-full items-center px-4 md:w-1/2 md:px-0">
         <div className="text-white">
           <Slides />
         </div>

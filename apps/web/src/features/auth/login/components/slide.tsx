@@ -23,11 +23,13 @@ export default function Slides() {
 
   return (
     <div className="grid max-w-96 gap-6 text-white">
-      <h2 className="font-bold text-4xl">Smart Contract, Secure Future</h2>
+      <h2 className="text-center font-bold text-4xl md:text-left">
+        Smart Contract, Secure Future
+      </h2>
       <AnimatePresence mode="wait">
         <motion.div
           animate={{ x: 0, opacity: 1 }}
-          className="h-max md:h-20"
+          className="h-max text-center md:h-20 md:text-left"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           exit={{ x: -50, opacity: 0 }}
@@ -45,7 +47,7 @@ export default function Slides() {
           <p>{slides[index].description}</p>
         </motion.div>
       </AnimatePresence>
-      <div className="mt-6 flex gap-2">
+      <div className="mx-auto mt-6 flex gap-2 md:mx-0">
         {slides.map((_, i) => (
           <div
             className={`h-1 rounded transition-all duration-300 ${
