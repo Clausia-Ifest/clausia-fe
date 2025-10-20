@@ -1,3 +1,6 @@
+/** biome-ignore-all lint/style/useNamingConvention: <explanation> */
+/** biome-ignore-all lint/nursery/noShadow: <explanation> */
+/** biome-ignore-all lint/correctness/noNestedComponentDefinitions: <explanation> */
 "use client";
 
 import {
@@ -5,7 +8,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
-import * as React from "react";
+import React from "react";
 import {
   type DayButton,
   DayPicker,
@@ -122,14 +125,13 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Root: ({ className, rootRef, ...props }) => (
-          <div
-            className={cn(className)}
-            data-slot="calendar"
-            ref={rootRef}
-            {...props}
-          />
-        ),
+        Root: ({ className, rootRef, ...props }) =>
+          React.createElement("div", {
+            className: cn(className),
+            "data-slot": "calendar",
+            ref: rootRef,
+            ...props,
+          }),
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === "left") {
             return (
@@ -151,17 +153,29 @@ function Calendar({
           );
         },
         DayButton: CalendarDayButton,
-        WeekNumber: ({ children, ...props }) => (
-          <td {...props}>
-            <div className="flex size-(--cell-size) items-center justify-center text-center">
-              {children}
-            </div>
-          </td>
-        ),
+        WeekNumber: (
+          weekNumberProps: React.TdHTMLAttributes<HTMLTableCellElement> & {
+            children?: React.ReactNode;
+          }
+        ) => {
+          const { children, ...rest } = weekNumberProps;
+          return React.createElement(
+            "td",
+            rest as React.TdHTMLAttributes<HTMLTableCellElement>,
+            React.createElement(
+              "div",
+              {
+                className:
+                  "flex size-(--cell-size) items-center justify-center text-center",
+              },
+              children
+            )
+          );
+        },
         ...components,
       }}
       formatters={{
-        formatMonthDropdown: (date) =>
+        formatMonthDropdown: (date: Date) =>
           date.toLocaleString("default", { month: "short" }),
         ...formatters,
       }}
@@ -181,7 +195,9 @@ function CalendarDayButton({
 
   const ref = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
-    if (modifiers.focused) ref.current?.focus();
+    if (modifiers.focused) {
+      ref.current?.focus();
+    }
   }, [modifiers.focused]);
 
   return (
